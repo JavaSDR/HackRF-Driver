@@ -23,7 +23,7 @@ repositories {
 apply from: "cbase.gradle"
 
 dependencies {
-    addCLibrary "nl.elec332.sdr.source.hackrf", "hackrf"
+    addCLibrary "nl.elec332.sdr.source.hackrf", "libhackrf"
     addCLibrary "nl.elec332.sdr.source.hackrf", "libusb-1.0" //Required by HackRF
     addCLibrary "nl.elec332.sdr.source.hackrf", "pthreadVC2" //Required by HackRF
 

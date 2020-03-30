@@ -227,7 +227,7 @@ private void addNativeInternal(pack, libName, jniLibName, platforms_, boolean co
                     String linkName = primaryOutput.absolutePath
                             .replace(projectDir.absolutePath + File.separator, "")
                             .replace(jniLibName, libName)
-                    linkName = linkName.substring(0, linkName.lastIndexOf(libName)) + libName + ".lib"
+                    linkName = linkName.substring(0, linkName.lastIndexOf(libName)) + libName + getLibName(targetPlatform)
                     setArgs(linker, cppCompiler, targetPlatform, head, true, linkName)
                 }
             }
@@ -269,14 +269,14 @@ void setArgs(linker, compiler, targetPlatform, headers, boolean cpp, libName_) {
         for (String s : libz) {
             String folderBase = "clibs/" + s + "/" + getFolderName(targetPlatform)
             if (project.file(folderBase).exists()) {
-                linker.args folderBase + "/" + s + ".lib"
+                linker.args folderBase + "/" + s + getLibName(targetPlatform)
             }
         }
     }
     for (String s : extraLibz.keySet()) {
         File folder = new File(s + "/" + extraLibz.get(s)[1])
         for (File fil : folder.listFiles()) {
-            if (fil.absolutePath.endsWith(".lib")) {
+            if (fil.absolutePath.endsWith(getLibName(targetPlatform))) {
                 linker.args fil.absolutePath
             }
         }
@@ -284,6 +284,13 @@ void setArgs(linker, compiler, targetPlatform, headers, boolean cpp, libName_) {
     if (cpp) {
         linker.args libName_
     }
+}
+
+private static String getLibName(targetPlatform) {
+    if (targetPlatform.operatingSystem.windows) {
+        return ".lib";
+    }
+    return ".so";
 }
 
 @SuppressWarnings("all")

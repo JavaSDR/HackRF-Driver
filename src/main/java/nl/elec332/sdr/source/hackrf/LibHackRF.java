@@ -13,7 +13,7 @@ import org.bytedeco.javacpp.annotation.Platform;
 /**
  * Created by Elec332 on 19-3-2020
  */
-@Platform(include = "source_hackrf.h", link = "source_hackrf", preload = {"libusb-1.0", "pthreadVC2", "hackrf"})
+@Platform(include = "source_hackrf.h", link = "source_hackrf", preload = {"libusb-1.0", "pthreadVC2", "libhackrf"})
 public class LibHackRF {
 
     public static final int[] OPTIMAL_SAMPLE_RATES = {2000000, 4000000, 8000000, 10000000, 12500000, 16000000, 20000000};
