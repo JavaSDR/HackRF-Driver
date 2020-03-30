@@ -37,7 +37,7 @@ public class HackRFInputHandler extends AbstractInputHandler<HackRFDevice, byte[
 
     @Override
     protected HackRFDevice createNewDevice() {
-        return LibHackRF.open(deviceId);
+        return LibHackRF.hrfd_open(deviceId);
     }
 
     @Override

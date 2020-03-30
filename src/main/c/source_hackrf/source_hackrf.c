@@ -4,7 +4,7 @@
 #include <source_hackrf.h>
 #include <hackrf.h>
 
-EXPORT hackrf_device* open(int deviceId) {
+EXPORT hackrf_device* hrfd_open(int deviceId) {
 	hackrf_device_list_t *list;
 
 	int result = hackrf_init();
@@ -26,7 +26,7 @@ EXPORT hackrf_device* open(int deviceId) {
     return device;
 }
 
-EXPORT bool close(hackrf_device* device) {
+EXPORT bool hrfd_close(hackrf_device* device) {
     if (device == NULL) {
         return false;
     }
@@ -35,7 +35,7 @@ EXPORT bool close(hackrf_device* device) {
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT bool setFrequency(hackrf_device* device, uint64_t frequency) {
+EXPORT bool hrfd_setFrequency(hackrf_device* device, uint64_t frequency) {
     if (device == NULL) {
         return false;
     }
@@ -44,7 +44,7 @@ EXPORT bool setFrequency(hackrf_device* device, uint64_t frequency) {
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT bool setSampleRate(hackrf_device* device, int sampleRate){
+EXPORT bool hrfd_setSampleRate(hackrf_device* device, int sampleRate){
     if (device == NULL) {
         return false;
     }
@@ -58,7 +58,7 @@ EXPORT bool setSampleRate(hackrf_device* device, int sampleRate){
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT bool setLNAGain(hackrf_device* device, uint32_t gain){
+EXPORT bool hrfd_setLNAGain(hackrf_device* device, uint32_t gain){
     if (device == NULL) {
         return false;
     }
@@ -67,7 +67,7 @@ EXPORT bool setLNAGain(hackrf_device* device, uint32_t gain){
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT bool setVGAGain(hackrf_device* device, uint32_t gain){
+EXPORT bool hrfd_setVGAGain(hackrf_device* device, uint32_t gain){
     if (device == NULL) {
         return false;
     }
@@ -76,7 +76,7 @@ EXPORT bool setVGAGain(hackrf_device* device, uint32_t gain){
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT bool setBiasTeeEnabled(hackrf_device* device, bool enabled){
+EXPORT bool hrfd_setBiasTeeEnabled(hackrf_device* device, bool enabled){
     if (device == NULL) {
         return false;
     }
@@ -85,7 +85,7 @@ EXPORT bool setBiasTeeEnabled(hackrf_device* device, bool enabled){
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT bool setHWSyncMode(hackrf_device* device, uint8_t mode){
+EXPORT bool hrfd_setHWSyncMode(hackrf_device* device, uint8_t mode){
     if (device == NULL) {
         return false;
     }
@@ -94,7 +94,7 @@ EXPORT bool setHWSyncMode(hackrf_device* device, uint8_t mode){
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT bool startRx(hackrf_device* device, javaCallback callBack) {
+EXPORT bool hrfd_startRx(hackrf_device* device, javaCallback callBack) {
     if (device == NULL) {
         return false;
     }
@@ -103,7 +103,7 @@ EXPORT bool startRx(hackrf_device* device, javaCallback callBack) {
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT bool stopRx(hackrf_device* device) {
+EXPORT bool hrfd_stopRx(hackrf_device* device) {
     if (device == NULL) {
         return false;
     }
@@ -112,7 +112,7 @@ EXPORT bool stopRx(hackrf_device* device) {
     return result == HACKRF_SUCCESS;
 }
 
-EXPORT int getDeviceCountInternal() {
+EXPORT int hrfd_getDeviceCountInternal() {
     hackrf_device_list_t *list;
 
 	int result = hackrf_init();
@@ -124,7 +124,7 @@ EXPORT int getDeviceCountInternal() {
 	return list->devicecount;
 }
 
-EXPORT void getDevices(int *stringArray) {
+EXPORT void hrfd_getDevices(int *stringArray) {
     hackrf_device_list_t *list;
 
 	int result = hackrf_init();

@@ -35,40 +35,40 @@ public class HackRFDevice extends AbstractNativeRFDevice<byte[]> {
     protected long setDeviceFrequency(long freq) {
         this.frequency = freq;
         long offset = freq > RESET_FREQUENCY * 2 ? -RESET_FREQUENCY : RESET_FREQUENCY;
-        LibHackRF.setFrequency(this, freq + offset); //Bug in HackRF
+        LibHackRF.hrfd_setFrequency(this, freq + offset); //Bug in HackRF
         try {
             Thread.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        LibHackRF.setFrequency(this, freq);
+        LibHackRF.hrfd_setFrequency(this, freq);
         return this.frequency;
     }
 
     @Override
     protected long setDeviceSampleRate(long sampleRate) {
         this.sampleRate = SourceHelper.getNextHigherOptimalSampleRate(sampleRate, LibHackRF.OPTIMAL_SAMPLE_RATES);
-        LibHackRF.setSampleRate(this, this.sampleRate);
+        LibHackRF.hrfd_setSampleRate(this, this.sampleRate);
         return this.sampleRate;
     }
 
     @Override
     protected int setDeviceLNAGain(int gain) {
-        LibHackRF.setLNAGain(this, gain);
+        LibHackRF.hrfd_setLNAGain(this, gain);
         return gain;
     }
 
     public void setVGAGain(int gain) {
-        LibHackRF.setVGAGain(this, gain);
+        LibHackRF.hrfd_setVGAGain(this, gain);
     }
 
     public void setBiasTeeEnabled(boolean enabled) {
-        LibHackRF.setBiasTeeEnabled(this, enabled);
+        LibHackRF.hrfd_setBiasTeeEnabled(this, enabled);
     }
 
     public void setHWSyncMode(@Cast("int16_t") int mode) {
         this.hwSync = mode;
-        LibHackRF.setHWSyncMode(this, mode);
+        LibHackRF.hrfd_setHWSyncMode(this, mode);
     }
 
     @Override
@@ -115,12 +115,12 @@ public class HackRFDevice extends AbstractNativeRFDevice<byte[]> {
 
     @Override
     protected void stopDevice() {
-        LibHackRF.stopRx(this);
+        LibHackRF.hrfd_stopRx(this);
     }
 
     @Override
     protected void closeDevice() {
-        LibHackRF.close(this);
+        LibHackRF.hrfd_close(this);
     }
 
     protected LibHackRF.AbstractReceiveCallback getCallback() {

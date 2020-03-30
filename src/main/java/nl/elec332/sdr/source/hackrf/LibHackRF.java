@@ -22,29 +22,29 @@ public class LibHackRF {
     private static final int DEVICE_ID_LENGTH = 32;
     private static final char[][] devices;
 
-    public static native HackRFDevice open(int deviceId);
+    public static native HackRFDevice hrfd_open(int deviceId);
 
-    protected static native boolean close(HackRFDevice device);
+    protected static native boolean hrfd_close(HackRFDevice device);
 
-    protected static native boolean setFrequency(HackRFDevice device, @Cast("uint64_t") long frequency);
+    protected static native boolean hrfd_setFrequency(HackRFDevice device, @Cast("uint64_t") long frequency);
 
-    protected static native boolean setSampleRate(HackRFDevice device, int sampleRate);
+    protected static native boolean hrfd_setSampleRate(HackRFDevice device, int sampleRate);
 
-    protected static native boolean setLNAGain(HackRFDevice device, @Cast("uint32_t") int gain);
+    protected static native boolean hrfd_setLNAGain(HackRFDevice device, @Cast("uint32_t") int gain);
 
-    protected static native boolean setVGAGain(HackRFDevice device, @Cast("uint32_t") int sampleRate);
+    protected static native boolean hrfd_setVGAGain(HackRFDevice device, @Cast("uint32_t") int sampleRate);
 
-    protected static native boolean setBiasTeeEnabled(HackRFDevice device, boolean enabled);
+    protected static native boolean hrfd_setBiasTeeEnabled(HackRFDevice device, boolean enabled);
 
-    protected static native boolean setHWSyncMode(HackRFDevice device, @Cast("uint8_t ") int mode);
+    protected static native boolean hrfd_setHWSyncMode(HackRFDevice device, @Cast("uint8_t ") int mode);
 
     protected static boolean startRx(HackRFDevice device) {
-        return startRx(device, Preconditions.checkNotNull(device.getCallback()));
+        return hrfd_startRx(device, Preconditions.checkNotNull(device.getCallback()));
     }
 
-    private static native boolean startRx(HackRFDevice device, AbstractReceiveCallback ptr);
+    private static native boolean hrfd_startRx(HackRFDevice device, AbstractReceiveCallback ptr);
 
-    protected static native boolean stopRx(HackRFDevice device);
+    protected static native boolean hrfd_stopRx(HackRFDevice device);
 
     @SuppressWarnings("unused")
     protected static abstract class AbstractReceiveCallback extends FunctionPointer {
@@ -102,15 +102,15 @@ public class LibHackRF {
         return ret;
     }
 
-    private static native int getDeviceCountInternal();
+    private static native int hrfd_getDeviceCountInternal();
 
-    private static native void getDevices(int[] link);
+    private static native void hrfd_getDevices(int[] link);
 
     static {
         Loader.load(LibHackRF.class);
-        devices = new char[getDeviceCountInternal()][];
+        devices = new char[hrfd_getDeviceCountInternal()][];
         int[] buffer = new int[DEVICE_ID_LENGTH * devices.length];
-        getDevices(buffer);
+        hrfd_getDevices(buffer);
         for (int i = 0; i < devices.length; i++) {
             char[] mapped = new char[DEVICE_ID_LENGTH];
             for (int j = 0; j < DEVICE_ID_LENGTH; j++) {
