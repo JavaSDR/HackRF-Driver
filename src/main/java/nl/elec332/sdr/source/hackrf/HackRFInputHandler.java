@@ -56,11 +56,17 @@ public class HackRFInputHandler extends AbstractInputHandler<HackRFDevice, byte[
 
         JPanel line0 = new JPanel();
         line0.add(new JLabel("Device ID: "));
-        JComboBox<String> deviceChooser = new JComboBox<>(LibHackRF.getDeviceStrings());
-        deviceChooser.addActionListener(a -> deviceId = deviceChooser.getSelectedIndex());
-        deviceChooser.setSelectedIndex(deviceId);
-        listeners.add(deviceChooser);
-        line0.add(deviceChooser);
+        if (LibHackRF.getDeviceCount() > 0) {
+            JComboBox<String> deviceChooser = new JComboBox<>(LibHackRF.getDeviceStrings());
+            deviceChooser.addActionListener(a -> deviceId = deviceChooser.getSelectedIndex());
+            deviceChooser.setSelectedIndex(deviceId);
+            listeners.add(deviceChooser);
+            line0.add(deviceChooser);
+        } else {
+            JComponent jlc = new JLabel("No HackRF devices detected");
+            jlc.setToolTipText("Restart the application to re-scan for devices.");
+            line0.add(jlc);
+        }
         panel.add(line0, new LinedGridBagConstraints(line).alignLeft());
 
         JPanel line1 = new JPanel();

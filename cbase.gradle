@@ -113,12 +113,17 @@ task generateJNI {
                 if (check.add(platform)) {
                     for (String cn : ["", pack]) {
                         for (String dep : clibs.get(cn)) {
-                            File ori = new File(projectDir, "clibs/" + dep + File.separator + platform + File.separator + dep + ext)
-                            if (!ori.exists()) {
+                            File folder = new File(projectDir, "clibs/" + dep + File.separator + platform)
+                            if (!folder.exists()) {
                                 continue
                             }
-                            File des = new File(destBase, dep + ext)
-                            Files.copy(ori.toPath(), des.toPath())
+                            // + File.separator + dep + ext
+                            for (File ori : folder.listFiles()) {
+                                if (ori.absolutePath.contains(ext)) {
+                                    File des = new File(destBase, ori.getName())
+                                    Files.copy(ori.toPath(), des.toPath())
+                                }
+                            }
                         }
                     }
                 }
@@ -268,15 +273,20 @@ void setArgs(linker, compiler, targetPlatform, headers, boolean cpp, libName_) {
     for (List<String> libz : clibs.values()) {
         for (String s : libz) {
             String folderBase = "clibs/" + s + "/" + getFolderName(targetPlatform)
-            if (project.file(folderBase).exists()) {
-                linker.args folderBase + "/" + s + getLibName(targetPlatform)
+            File folder = project.file(folderBase)
+            if (folder.exists()) {
+                for (File fil : folder.listFiles()) {
+                    if (fil.absolutePath.contains(getLibName(targetPlatform))) {
+                        linker.args fil.absolutePath
+                    }
+                }
             }
         }
     }
     for (String s : extraLibz.keySet()) {
         File folder = new File(s + "/" + extraLibz.get(s)[1])
         for (File fil : folder.listFiles()) {
-            if (fil.absolutePath.endsWith(getLibName(targetPlatform))) {
+            if (fil.absolutePath.contains(getLibName(targetPlatform))) {
                 linker.args fil.absolutePath
             }
         }
