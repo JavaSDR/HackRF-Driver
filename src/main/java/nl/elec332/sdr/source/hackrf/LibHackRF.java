@@ -1,6 +1,5 @@
 package nl.elec332.sdr.source.hackrf;
 
-import com.google.common.base.Preconditions;
 import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.FunctionPointer;
 import org.bytedeco.javacpp.Loader;
@@ -9,6 +8,8 @@ import org.bytedeco.javacpp.annotation.Cast;
 import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Opaque;
 import org.bytedeco.javacpp.annotation.Platform;
+
+import java.util.Objects;
 
 /**
  * Created by Elec332 on 19-3-2020
@@ -39,7 +40,7 @@ public class LibHackRF {
     protected static native boolean hrfd_setHWSyncMode(HackRFDevice device, @Cast("uint8_t ") int mode);
 
     protected static boolean startRx(HackRFDevice device) {
-        return hrfd_startRx(device, Preconditions.checkNotNull(device.getCallback()));
+        return hrfd_startRx(device, Objects.requireNonNull(device.getCallback()));
     }
 
     private static native boolean hrfd_startRx(HackRFDevice device, AbstractReceiveCallback ptr);

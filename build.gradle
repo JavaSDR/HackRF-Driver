@@ -1,43 +1,57 @@
 plugins {
-    id "nl.elec332.gradle.nativeplugin" version "0.1-Alpha"
+    id "nl.elec332.gradle.nativeplugin.javacpp" version "0.3-Beta"
+    id "nl.elec332.gradle.ossrhplugin" version "1.0.2-Beta"
+    id "com.dua3.gradle.jpms" version "1.0"
 }
 
-group 'nl.elec332.sdr.source.hackrf'
-version '1.0-SNAPSHOT'
+repositories {
+    mavenCentral()
+}
 
-sourceCompatibility = targetCompatibility = 1.8
+group 'nl.elec332.sdr.source'
+archivesBaseName = "HackRFDriver"
+version '1.0-Beta'
+
+sourceCompatibility = targetCompatibility = 1.11
 
 dependencies {
-    javacpp fileTree(dir: 'libs', include: '*.jar')
+    javacpp "nl.elec332.sdr:sdrlib:0.2-Beta"
 }
 
-nativeDependencies {
-    addCLibrary "nl.elec332.sdr.source.hackrf", "hackrf"
-    addCLibrary "nl.elec332.sdr.source.hackrf", "libusb-1.0" //Required by HackRF
-    addCLibrary "nl.elec332.sdr.source.hackrf", "pthreadVC2" //Required by HackRF
+nativeProjects {
+
+    source_hackrf {
+        platforms "windows_x64"
+
+        nativeDependency "hackrf"
+        nativeDependency "libusb-1.0" //Required by HackRF
+        nativeDependency "pthreadVC2" //Required by HackRF
+    }
+
 }
 
-model {
-    platforms {
-        windows_x86 {
-            operatingSystem "windows"
-            architecture "x86"
-        }
-        windows_x64 {
-            operatingSystem "windows"
-            architecture "x86_64"
-        }
-        linux_x86 {
-            operatingSystem "linux"
-            architecture "x86"
-        }
-        linux_x64 {
-            operatingSystem "linux"
-            architecture "x86_64"
-        }
+nativeInterfaces {
+
+    LibHackRF {
+        classPackage = "nl.elec332.sdr.source.hackrf"
+
+        projectDependency "source_hackrf"
+
+        platforms "windows_x64"
+    }
+
+}
+
+ossrh {
+    description = 'HackRF SDR Driver for Java'
+    githubUrl = 'https://github.com/JavaSDR/HackRF-Driver'
+
+    license {
+        name 'GNU Lesser General Public License, version 2.1'
+        url 'https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt'
+    }
+    developer {
+        name 'Elec332'
     }
 }
 
-generateCPP {
-    generateCPPCode "nl.elec332.sdr.source.hackrf", "LibHackRF", "source_hackrf", "windows_x64"
-}

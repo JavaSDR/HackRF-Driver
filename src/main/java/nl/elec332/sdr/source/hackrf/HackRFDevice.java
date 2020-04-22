@@ -1,9 +1,8 @@
 package nl.elec332.sdr.source.hackrf;
 
-import com.google.common.base.Preconditions;
+import nl.elec332.sdr.lib.SDRLibrary;
 import nl.elec332.sdr.lib.api.datastream.ISampleDataSetter;
 import nl.elec332.sdr.lib.api.util.IDataConverter;
-import nl.elec332.sdr.lib.source.CachedDataConverterFactory;
 import nl.elec332.sdr.lib.source.device.AbstractNativeRFDevice;
 import nl.elec332.sdr.lib.util.SourceHelper;
 import org.bytedeco.javacpp.BytePointer;
@@ -11,6 +10,7 @@ import org.bytedeco.javacpp.annotation.Cast;
 import org.bytedeco.javacpp.annotation.Name;
 import org.bytedeco.javacpp.annotation.Opaque;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 public class HackRFDevice extends AbstractNativeRFDevice<byte[]> {
 
     private static final long RESET_FREQUENCY = 200000000;
-    private static final IDataConverter converter = CachedDataConverterFactory.INSTANCE.createConverter(8, false, true);
+    private static final IDataConverter converter = SDRLibrary.getInstance().getCachedDataConverterFactory().createConverter(8, false, true);
 
     private LibHackRF.AbstractReceiveCallback callback;
     private BiConsumer<BytePointer, Integer> listener;
@@ -144,7 +144,7 @@ public class HackRFDevice extends AbstractNativeRFDevice<byte[]> {
     }
 
     public void addListener(BiConsumer<BytePointer, Integer> listener) {
-        Preconditions.checkNotNull(listener);
+        Objects.requireNonNull(listener);
         if (this.listener == null) {
             this.listener = (a, b) -> {
             };

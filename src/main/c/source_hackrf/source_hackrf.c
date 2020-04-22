@@ -50,12 +50,13 @@ EXPORT bool hrfd_setSampleRate(hackrf_device* device, int sampleRate){
     }
 
     int result = hackrf_set_sample_rate(device, sampleRate);
-    if (result != HACKRF_SUCCESS) {
-        return false;
-    }
-    uint32_t bWidth = hackrf_compute_baseband_filter_bw_round_down_lt(sampleRate);
-    result = hackrf_set_baseband_filter_bandwidth(device, bWidth);
     return result == HACKRF_SUCCESS;
+//    if (result != HACKRF_SUCCESS) {
+//        return false;
+//    }
+//    uint32_t bWidth = hackrf_compute_baseband_filter_bw_round_down_lt(sampleRate);
+//    result = hackrf_set_baseband_filter_bandwidth(device, bWidth);
+//    return result == HACKRF_SUCCESS;
 }
 
 EXPORT bool hrfd_setLNAGain(hackrf_device* device, uint32_t gain){

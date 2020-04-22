@@ -2,7 +2,7 @@ package nl.elec332.sdr.source.hackrf;
 
 import nl.elec332.lib.java.swing.IDefaultListCellRenderer;
 import nl.elec332.lib.java.swing.LinedGridBagConstraints;
-import nl.elec332.sdr.lib.source.AbstractInputHandler;
+import nl.elec332.sdr.lib.source.inputhandler.AbstractInputHandler;
 
 import javax.annotation.Nonnull;
 import javax.swing.*;
@@ -33,6 +33,12 @@ public class HackRFInputHandler extends AbstractInputHandler<HackRFDevice, byte[
     @Override
     public String getDisplayString() {
         return "HackRF";
+    }
+
+    @Nonnull
+    @Override
+    public String getIdentifier() {
+        return "sdr-hackrf";
     }
 
     @Override
