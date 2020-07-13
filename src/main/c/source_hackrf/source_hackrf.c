@@ -2,7 +2,6 @@
  * Created by Elec332 on 10-2-2020
  */
 #include <source_hackrf.h>
-#include <hackrf.h>
 
 EXPORT hackrf_device* hrfd_open(int deviceId) {
 	hackrf_device_list_t *list;

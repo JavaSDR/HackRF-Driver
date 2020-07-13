@@ -1,5 +1,5 @@
 plugins {
-    id "nl.elec332.gradle.nativeplugin.javacpp" version "0.3-Beta"
+    id "nl.elec332.gradle.nativeplugin.javacpp" version "0.4.1-Beta"
     id "nl.elec332.gradle.ossrhplugin" version "1.0.2-Beta"
     id "com.dua3.gradle.jpms" version "1.0"
 }
@@ -10,7 +10,7 @@ repositories {
 
 group 'nl.elec332.sdr.source'
 archivesBaseName = "HackRFDriver"
-version '1.0-Beta'
+version '1.0.1-Beta'
 
 sourceCompatibility = targetCompatibility = 1.11
 
